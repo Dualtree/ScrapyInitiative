@@ -15,7 +15,7 @@ with open("wiki_page", "r", encoding = "utf8") as page:
     page = page.read()
 
 #states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
-name_re = re.compile(r'''.house.gov\/?">(.+,\s.+)</a>''', re.X)
+name_re = re.compile(r'''.house.gov/index.cfm/home">(.+,\s?.+)</a>|.house.gov\/?">(.+,\s?.+)</a>''', re.X)
 district_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
 
 #states = states_re.finditer(page)
