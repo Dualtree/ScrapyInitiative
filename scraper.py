@@ -22,15 +22,21 @@ dis = district_re.finditer(page)
 
 #seed a loop make sure all entries go through
 
-first = np.array([])
-second = np.array([])
+first = []
+second = []
 
-for item in states:
-    first = np.append(first,item.group(0))
+for i in states:
+    first = np.append(first,i.group(1))
 
-for item in dis:
-    second= np.append(second,item.group(1))
-    
-df = pd.DataFrame(first, second)
+for j in dis:
+    second= np.append(second,j.group(0))
 
-print(first, second)
+print("first:\n")
+print(first)
+print("\n\n")
+
+print("second:\n")
+print(second)
+print("\n\n")
+
+#df = pd.DataFrame(first, second)
