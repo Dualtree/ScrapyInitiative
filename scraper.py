@@ -15,34 +15,23 @@ with open("wiki_page", "r", encoding = "utf8") as page:
     page = page.read()
 
 #states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
-name_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
+name_re = re.compile(r'''.house.gov\/?">(.+),\s(.+)</a>''', re.X)
 district_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
 
 #states = states_re.finditer(page)
 dis = district_re.finditer(page)
-
-#seed a loop make sure all entries go through
+name = name_re.finditer(page)
 
 first = []
 second = []
 
-for i in states:
-    first = np.append(first,i.group(1))
+for i in name:
+    first = np.append(first,i.group(0))
 
 for j in dis:
     second= np.append(second,j.group(0))
 
-'''print("first:\n")
-print(first)
-print("\n\n")
+temp = {'Name': first, 'PhoneNum': second}
 
-print("second:\n")
-print(second)
-print("\n\n")'''
-
-temp = {'States': first, 'PhoneNum': second}
-print(temp)
-
-df = pd.DataFrame(first, second)
 df = pd.DataFrame(temp)
 print(df)
