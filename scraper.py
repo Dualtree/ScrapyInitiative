@@ -31,7 +31,16 @@ for i in name:
 for j in dis:
     second= np.append(second,j.group(0))
 
-temp = {'Name': first, 'PhoneNum': second}
+nameList = first.tolist()
+districtList = second.tolist()
+
+if(len(first)>len(second)):
+    districtList.extend(['X'] * (len(nameList)-len(districtList)))
+else:
+    nameList.extend(['X'] * (len(districtList)-len(nameList)))
+
+    
+temp = {'Name': nameList, 'PhoneNumber': districtList}
 
 df = pd.DataFrame(temp)
 print(df)
