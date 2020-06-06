@@ -44,3 +44,4 @@ temp = {'Name': nameList, 'PhoneNumber': districtList}
 
 df = pd.DataFrame(temp)
 print(df)
+print(df.Name.to_string(index=False))
