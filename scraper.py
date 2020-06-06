@@ -14,10 +14,11 @@ with open("wiki_page", "w", encoding = "utf8") as page:
 with open("wiki_page", "r", encoding = "utf8") as page:
     page = page.read()
 
-states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
+#states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
+
 district_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
 
-states = states_re.finditer(page)
+#states = states_re.finditer(page)
 dis = district_re.finditer(page)
 
 #seed a loop make sure all entries go through
@@ -31,12 +32,16 @@ for i in states:
 for j in dis:
     second= np.append(second,j.group(0))
 
-print("first:\n")
+'''print("first:\n")
 print(first)
 print("\n\n")
 
 print("second:\n")
 print(second)
-print("\n\n")
+print("\n\n")'''
 
-#df = pd.DataFrame(first, second)
+temp = {'States': first, 'PhoneNum': second}
+print(temp)
+
+df = pd.DataFrame(temp)
+print(df)
