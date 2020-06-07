@@ -15,36 +15,43 @@ with open("wiki_page", "r", encoding = "utf8") as page:
 #Creates a string to search text postions for asstalished info
                         #states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
 name_re = re.compile(r'''Bvid=\d\d\d">(.+,\s?.+)</a>|.house.gov/index.cfm/home">(.+,\s?.+)</a>|.house.gov\/?">(.+,\s?.+)</a>''', re.X)
-district_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
+phoneNumber_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
 
-#Gets info from the re positions
-                        #states = states_re.finditer(page)
-dis = district_re.finditer(page)
-name = name_re.finditer(page)
+#Gets info from the re positions(extracts them)
+#states = states_re.finditer(page)
+extrPhoneNum = phoneNumber_re.finditer(page)
+extrName = name_re.finditer(page)
 
 #Create array to seed loops
-first = []
-second = []
+nameArr = []
+phoneArr = []
 
-#AAdd scrapped data to arrays in desired
-for i in name:
-    first = np.append(first,i.group(1))
-for j in dis:
-    second= np.append(second,j.group(0))
+#Add scrapped data to arrays in desired
+for i in extrName:
+    nameArr = np.append(nameArr,i.group(1))
+for j in extrPhoneNum:
+    phoneArr= np.append(phoneArr,j.group(0))
 
 #Change array to lists 
-nameList = first.tolist()
-districtList = second.tolist()
+nameList = nameArr.tolist()
+phoneNumList = phoneArr.tolist()
 
 #Creates list same size (during testing)
-if(len(first)>len(second)):
-    districtList.extend(['X'] * (len(nameList)-len(districtList)))
+if(len(nameArr)>len(phoneArr)):
+    phoneNumList.extend(['X'] * (len(nameList)-len(phoneNumList)))
 else:
-    nameList.extend(['X'] * (len(districtList)-len(nameList)))
+    nameList.extend(['X'] * (len(phoneNumList)-len(nameList)))
 
+print(nameList)
+print("\n")
 #Creates Dataframe (Colomes and Rows)
-temp = {'Name': nameList, 'PhoneNumber': districtList}
+temp = {'Name': nameList, 'PhoneNumber': phoneNumList}
 df = pd.DataFrame(temp)
 
 #Print Section
 print(df)
+print("\n")
+
+#print(df.loc[df.PhoneNumber=="(202) 225-5265"])
+#print(df.Name.to_string(index=False))
+#print(df.PhoneNumber.to_string(index=False))
