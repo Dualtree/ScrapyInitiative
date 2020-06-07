@@ -13,10 +13,10 @@ with open("wiki_page", "r", encoding = "utf8") as page:
     page = page.read()
 
 #Creates a string to search text postions for asstalished info
-                        #states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
+#states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
 name_re = re.compile(r'''">(.+,\s?.+)</a>''', re.X)
 phoneNumber_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
-party_re = re.compile(r'''<td>\D\s\s\s\s''', re.X)
+party_re = re.compile(r'''<td>(D|R|L)\s\s\s\s''', re.X)
 
 #Gets info from the re positions(extracts them)
 #states = states_re.finditer(page)
@@ -34,8 +34,8 @@ for i in extrName:
     nameArr = np.append(nameArr,i.group(1))
 for j in extrPhoneNum:
     phoneArr= np.append(phoneArr,j.group(0))
-for j in extrParty:
-    partyArr= np.append(phoneArr,j.group(0))
+for k in extrParty:
+    partyArr= np.append(partyArr,k.group(1))
 
 #Change array to lists 
 nameList = nameArr.tolist()
@@ -43,27 +43,22 @@ phoneNumList = phoneArr.tolist()
 partyList = partyArr.tolist()
 
 #Creates list same size (during testing)
-nameList = np.full_like(phoneNumList, 1)
-nameList = np.full_like(partyList, 1)
-phoneNumList = np.full_like(nameList, 1)
-phoneNumList = np.full_like(partyList, 1)
-partyList = np.full_like(phoneNumList, 1)
-partyList = np.full_like(nameList, 1)
-'''if(len(nameArr)>len(phoneArr) | len(nameArr)>len(partyArr)):
-    phoneNumList.extend(['X'] * (len(nameList)-len(phoneNumList)))
-    partyList.extend(['X'] * (len(nameList)-len(phoneNumList)))
-else:
-    nameList.extend(['X'] * (len(phoneNumList)-len(nameList)))'''
+print("Name arr len: " + str(len(nameArr)))
+print("Phone num arr len: " + str(len(phoneArr))+"\n\n")
+print("Party arr len: " + str(len(partyArr))+"\n\n")
 
-#print(nameList)
-#print("\n")
+#if(len(nameArr)>len(phoneArr)):
+#   phoneNumList.extend(['X'] * (len(nameList)-len(phoneNumList)))
+#else:
+#    nameList.extend(['X'] * (len(phoneNumList)-len(nameList)))
+
 #Creates Dataframe (Colomes and Rows)
 temp = {'Name': nameList, 'PhoneNumber': phoneNumList, 'Party': partyList}
 df = pd.DataFrame(temp)
+data = df.drop_duplicates()
 
 #Print Section
-print(df)
-print("\n")
+print(data)
 
 #print(df.loc[df.PhoneNumber=="(202) 225-5265"])
 #print(df.Name.to_string(index=False))
