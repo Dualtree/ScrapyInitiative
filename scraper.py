@@ -42,6 +42,8 @@ if(len(nameArr)>len(phoneArr)):
 else:
     nameList.extend(['X'] * (len(phoneNumList)-len(nameList)))
 
+print(nameList)
+print("\n")
 #Creates Dataframe (Colomes and Rows)
 temp = {'Name': nameList, 'PhoneNumber': phoneNumList}
 df = pd.DataFrame(temp)
