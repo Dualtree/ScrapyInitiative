@@ -48,4 +48,3 @@ df = pd.DataFrame(temp)
 
 #Print Section
 print(df)
-print(df.Name.to_string(index=False))
