@@ -14,8 +14,7 @@ with open("wiki_page", "r", encoding = "utf8") as page:
 
 #Creates a string to search text postions for asstalished info
                         #states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
-name_re = re.compile(r'''Bvid=\d\d\d">(.+,\s?.+)</a>|.house.gov/index.cfm
-/home">(.+,\s?.+)</a>|.house.gov\/?">(.+,\s?.+)</a>''', re.X)
+name_re = re.compile(r'''Bvid=\d\d\d">(.+,\s?.+)</a>|.house.gov/index.cfm/home">(.+,\s?.+)</a>|.house.gov\/?">(.+,\s?.+)</a>''', re.X)
 district_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
 
 #Gets info from the re positions
@@ -37,12 +36,16 @@ for j in dis:
 nameList = first.tolist()
 districtList = second.tolist()
 
-#PLEASE COMMENT THIS CODE :)
+#Creates list same size (during testing)
 if(len(first)>len(second)):
     districtList.extend(['X'] * (len(nameList)-len(districtList)))
 else:
-    nameList.extend(['X'] * (len(districtList)-len(nameList)))  
+    nameList.extend(['X'] * (len(districtList)-len(nameList)))
+
+#Creates Dataframe (Colomes and Rows)
 temp = {'Name': nameList, 'PhoneNumber': districtList}
 df = pd.DataFrame(temp)
+
+#Print Section
 print(df)
 print(df.Name.to_string(index=False))
