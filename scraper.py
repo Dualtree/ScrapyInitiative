@@ -48,5 +48,8 @@ temp = {'Name': nameList, 'PhoneNumber': districtList}
 
 df = pd.DataFrame(temp)
 print(df)
+print("\n")
+
+#print(df.loc[df.PhoneNumber=="(202) 225-5265"])
 #print(df.Name.to_string(index=False))
 #print(df.PhoneNumber.to_string(index=False))
