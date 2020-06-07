@@ -14,38 +14,51 @@ with open("wiki_page", "r", encoding = "utf8") as page:
 
 #Creates a string to search text postions for asstalished info
                         #states_re = re.compile(r'''<caption\sid="state-(\w+)''', re.X)
-name_re = re.compile(r'''Bvid=\d\d\d">(.+,\s?.+)</a>|.house.gov/index.cfm/home">(.+,\s?.+)</a>|.house.gov\/?">(.+,\s?.+)</a>''', re.X)
+name_re = re.compile(r'''">(.+,\s?.+)</a>''', re.X)
 phoneNumber_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
+party_re = re.compile(r'''<td>\D\s\s\s\s''', re.X)
 
 #Gets info from the re positions(extracts them)
 #states = states_re.finditer(page)
-extrPhoneNum = phoneNumber_re.finditer(page)
 extrName = name_re.finditer(page)
+extrPhoneNum = phoneNumber_re.finditer(page)
+extrParty = party_re.finditer(page)
 
 #Create array to seed loops
 nameArr = []
 phoneArr = []
+partyArr = []
 
 #Add scrapped data to arrays in desired
 for i in extrName:
     nameArr = np.append(nameArr,i.group(1))
 for j in extrPhoneNum:
     phoneArr= np.append(phoneArr,j.group(0))
+for j in extrParty:
+    partyArr= np.append(phoneArr,j.group(0))
 
 #Change array to lists 
 nameList = nameArr.tolist()
 phoneNumList = phoneArr.tolist()
+partyList = partyArr.tolist()
 
 #Creates list same size (during testing)
-if(len(nameArr)>len(phoneArr)):
+nameList = np.full_like(phoneNumList, 1)
+nameList = np.full_like(partyList, 1)
+phoneNumList = np.full_like(nameList, 1)
+phoneNumList = np.full_like(partyList, 1)
+partyList = np.full_like(phoneNumList, 1)
+partyList = np.full_like(nameList, 1)
+'''if(len(nameArr)>len(phoneArr) | len(nameArr)>len(partyArr)):
     phoneNumList.extend(['X'] * (len(nameList)-len(phoneNumList)))
+    partyList.extend(['X'] * (len(nameList)-len(phoneNumList)))
 else:
-    nameList.extend(['X'] * (len(phoneNumList)-len(nameList)))
+    nameList.extend(['X'] * (len(phoneNumList)-len(nameList)))'''
 
-print(nameList)
-print("\n")
+#print(nameList)
+#print("\n")
 #Creates Dataframe (Colomes and Rows)
-temp = {'Name': nameList, 'PhoneNumber': phoneNumList}
+temp = {'Name': nameList, 'PhoneNumber': phoneNumList, 'Party': partyList}
 df = pd.DataFrame(temp)
 
 #Print Section
