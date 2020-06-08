@@ -17,7 +17,7 @@ with open("wiki_page", "r", encoding = "utf8") as page:
 name_re = re.compile(r'''">(.+,\s?.+)</a>''', re.X)
 phoneNumber_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
 party_re = re.compile(r'''<td>(D|R|L)\s\s\s\s''', re.X)
-district_re = re.compile(r'''<td>(.+?)\s\s\s\s\s\s\s\s<\/td>\n(?:.+?)<td><a href=''', re.X)
+district_re = re.compile(r'''<td>(.+?)\s{8}<\/td>\n(?:.+?)<td><a href=''', re.X)
 
 #Gets info from the re positions(extracts them)
 #states = states_re.finditer(page)
@@ -40,13 +40,13 @@ for j in extrPhoneNum:
 for k in extrParty:
     partyArr= np.append(partyArr,k.group(1))
 for l in extrDistrict:
-    districtArr= np.append(districtArr,k.group(1))
+    districtArr= np.append(districtArr,l.group(1))
 
 #Change array to lists 
 nameList = nameArr.tolist()
 phoneNumList = phoneArr.tolist()
 partyList = partyArr.tolist()
-districtList = districtArr.tolist()
+districtList = districtArr
 
 #Creates list same size (during testing)
 print("Name arr len: " + str(len(nameArr)))
