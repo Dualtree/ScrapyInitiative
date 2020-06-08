@@ -17,17 +17,20 @@ with open("wiki_page", "r", encoding = "utf8") as page:
 name_re = re.compile(r'''">(.+,\s?.+)</a>''', re.X)
 phoneNumber_re = re.compile(r'''\((\d{3})\)\s(\d{3})-(\d{4})''', re.X)
 party_re = re.compile(r'''<td>(D|R|L)\s\s\s\s''', re.X)
+district_re = re.compile(r'''<td>(.+?)\s\s\s\s\s\s\s\s<\/td>\n(?:.+?)<td><a href=''', re.X)
 
 #Gets info from the re positions(extracts them)
 #states = states_re.finditer(page)
 extrName = name_re.finditer(page)
 extrPhoneNum = phoneNumber_re.finditer(page)
 extrParty = party_re.finditer(page)
+extrDistrict = district_re.finditer(page)
 
 #Create array to seed loops
 nameArr = []
 phoneArr = []
 partyArr = []
+districtArr = []
 
 #Add scrapped data to arrays in desired
 for i in extrName:
@@ -36,24 +39,28 @@ for j in extrPhoneNum:
     phoneArr= np.append(phoneArr,j.group(0))
 for k in extrParty:
     partyArr= np.append(partyArr,k.group(1))
+for l in extrDistrict:
+    districtArr= np.append(districtArr,k.group(1))
 
 #Change array to lists 
 nameList = nameArr.tolist()
 phoneNumList = phoneArr.tolist()
 partyList = partyArr.tolist()
+districtList = districtArr.tolist()
 
 #Creates list same size (during testing)
 print("Name arr len: " + str(len(nameArr)))
 print("Phone num arr len: " + str(len(phoneArr))+"\n\n")
 print("Party arr len: " + str(len(partyArr))+"\n\n")
+print("District arr len: " + str(len(districtArr))+"\n\n")
 
-#if(len(nameArr)>len(phoneArr)):
-#   phoneNumList.extend(['X'] * (len(nameList)-len(phoneNumList)))
+#if(len(districtArr)<len(nameArr)):
+#   districtList.extend(['X'] * (len(nameList)-len(districtList)))
 #else:
 #    nameList.extend(['X'] * (len(phoneNumList)-len(nameList)))
 
 #Creates Dataframe (Colomes and Rows)
-temp = {'Name': nameList, 'PhoneNumber': phoneNumList, 'Party': partyList}
+temp = {'Name': nameList, 'PhoneNumber': phoneNumList, 'Party': partyList, 'District': districtList}
 df = pd.DataFrame(temp)
 data = df.drop_duplicates()
 
